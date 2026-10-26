@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+<div class="container">
+    <h1>My Todos</h1>
+    <p class="subtitle">Add, edit, complete, and delete your tasks.</p>
+
+    <div class="card">
+        <form id="add-form" class="add-form">
+            <input type="text" id="new-title" placeholder="What needs to be done?" maxlength="255" autocomplete="off">
+            <button type="submit" class="btn-primary" id="add-btn">Add</button>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <ul id="todo-list" class="todo-list"></ul>
+
+        <p id="footer" class="footer"></p>
+    </div>
+</div>
+</body>
+</html>
