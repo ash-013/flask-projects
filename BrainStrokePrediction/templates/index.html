@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stroke Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous" defer></script>
+</head>
+<body>
+
+{% macro select_field(name, label, options) %}
+<div class="col-md-6">
+    <div class="form-floating">
+        <select class="form-select" name="{{ name }}" id="{{ name }}" required>
+            {% for value, text in options %}
+            <option value="{{ value }}" {% if form.get(name) == value %}selected{% endif %}>{{ text }}</option>
+            {% endfor %}
+        </select>
+        <label for="{{ name }}">{{ label }}</label>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro number_field(name, label, min, max, step) %}
+<div class="col-md-6">
+    <div class="form-floating">
+        <input type="number" class="form-control" name="{{ name }}" id="{{ name }}"
+               min="{{ min }}" max="{{ max }}" step="{{ step }}"
+               placeholder="{{ label }}" value="{{ form.get(name, '') }}" required>
+        <label for="{{ name }}">{{ label }}</label>
+    </div>
+</div>
+{% endmacro %}
+
+<div class="container my-5" style="max-width: 900px;">
+    <h2 class="text-center mb-4">Stroke Prediction using Machine Learning</h2>
+    <p class="text-muted">
+        Stroke is the second leading cause of death globally, responsible for approximately 11% of total deaths (WHO).
+        It occurs when the blood supply to part of the brain is disrupted, causing brain cells to die.
+        Signs and symptoms may include an inability to move or feel on one side of the body, problems understanding
+        or speaking, dizziness, or loss of vision to one side.
+    </p>
+
+    {% if error %}
+    <div class="alert alert-warning mt-4">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+    <div class="alert {{ 'alert-danger' if result == 'Likely' else 'alert-success' }} mt-4">
+        <h5 class="alert-heading mb-2">Stroke: {{ result }}</h5>
+        <p class="mb-1">Estimated risk: <strong>{{ probability }}%</strong></p>
+        <small>This is a machine learning demo, not a medical diagnosis. Please consult a doctor about any health concerns.</small>
+    </div>
+    {% endif %}
+
+    <form method="POST" class="row g-3 mt-2">
+        <h4 class="mb-1">User Input Features</h4>
+
+        {{ number_field('age', 'Age', 1, 100, 1) }}
+        {{ select_field('gender', 'Gender', [('Male', 'Male'), ('Female', 'Female')]) }}
+
+        {{ number_field('avg_glucose_level', 'Average Glucose Level (mg/dL)', 40, 300, 0.01) }}
+        {{ number_field('bmi', 'BMI', 10, 100, 0.1) }}
+
+        {{ select_field('hypertension', 'Hypertension', [('0', 'No'), ('1', 'Yes')]) }}
+        {{ select_field('heart_disease', 'Heart Disease', [('0', 'No'), ('1', 'Yes')]) }}
+
+        {{ select_field('ever_married', 'Ever Married', [('Yes', 'Yes'), ('No', 'No')]) }}
+        {{ select_field('residence_type', 'Residence Type', [('Urban', 'Urban'), ('Rural', 'Rural')]) }}
+
+        {{ select_field('work_type', 'Work Type', [
+            ('Private', 'Private'),
+            ('Self-employed', 'Self-employed'),
+            ('Government job', 'Government job'),
+            ('Children', 'Children'),
+            ('Never Worked', 'Never Worked')
+        ]) }}
+        {{ select_field('smoking_status', 'Smoking Status', [
+            ('Never Smoked', 'Never Smoked'),
+            ('Formerly Smoked', 'Formerly Smoked'),
+            ('Smokes', 'Smokes'),
+            ('Unknown', 'Unknown')
+        ]) }}
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary w-100 py-2">Predict Stroke Likelihood</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+

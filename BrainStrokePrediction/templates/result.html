@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5" style="max-width: 700px;">
+        <h2 class="text-center mb-4">Stroke Prediction Result</h2>
+        <div class="alert {{ 'alert-danger' if result == 'Likely' else 'alert-success' }} text-center">
+            <h4 class="alert-heading">Stroke: <strong>{{ result }}</strong></h4>
+            <p class="mb-2">Estimated risk: <strong>{{ probability }}%</strong></p>
+            <small>This is a machine learning demo, not a medical diagnosis. Please consult a doctor about any health concerns.</small>
+        </div>
+        <a href="{{ url_for('index') }}" class="btn btn-primary w-100">Go Back</a>
+    </div>
+</body>
+</html>
