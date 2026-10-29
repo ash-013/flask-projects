@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in to Morrow</title>
+
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="theme-color"
+      content="#e6edf7"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0e1526"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <!-- Atkinson Hyperlegible Next: drawn so l, I and 1 (and O and 0) never look alike,
+       which matters most in the field where people type their username. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap"
+    />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="signin">
+      <!-- Placeholder brand: swap the mark and the name for your own. -->
+      <div class="brand">
+        <svg
+          class="brand-mark"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M3.515 15a9 9 0 1 1 16.97 0Z" />
+          <path d="M4.517 17a9 9 0 0 0 14.966 0Z" />
+        </svg>
+        <span>Morrow</span>
+      </div>
+
+      <h1 class="title">Sign in</h1>
+      <p class="lede">New to Morrow? <a href="#">Create an account</a></p>
+
+      <!-- Point action at your sign-in endpoint. POST keeps the password out of the URL. -->
+      <form class="form" action="{{ url_for('auth.login') }}" method="post">
+          {% if error %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endif %}
+
+        <div class="field">
+          <label class="field-label" for="username">Username</label>
+          <input
+            class="field-input"
+            id="username"
+            name="username"
+            type="text"
+            value="{{ username or '' }}"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+          />
+          <p class="field-hint">Enter your username.</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="password">Password</label>
+          <input
+            class="field-input"
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+          <a class="field-link" href="#">Forgot password?</a>
+          <p class="field-hint">Enter your password.</p>
+        </div>
+        <button class="button" type="submit">Sign in</button>
+      </form>
+    </main>
+  </body>
+</html>
